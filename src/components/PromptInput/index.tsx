@@ -3,7 +3,6 @@ import "./index.scss";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import { deleteIndexDb } from "../../db/db";
 
 const PromptInput = ({ onSubmit, tab }: any) => {
   const [content, setContent] = useState("");
@@ -14,13 +13,14 @@ const PromptInput = ({ onSubmit, tab }: any) => {
   useEffect(() => {
     switch (tab) {
       case "chat-prompt1":
-        setContentLabel("제목을 입력하세요");
-        setTitleLabel("내용을 입력하세요");
+        setContentLabel("내용을 입력하세요");
+        setTitleLabel("제목을 입력하세요");
         break;
       case "chat-prompt2":
         setContentLabel("요약할 내용을 입력하세요");
         break;
       case "image-prompt1":
+        setContentLabel("제목을 입력하세요");
         setTitleLabel("제목을 입력하세요");
         break;
       default:
@@ -39,8 +39,6 @@ const PromptInput = ({ onSubmit, tab }: any) => {
       },
       tab
     );
-    setContent("");
-    setTitle("");
   };
 
   const handleSubmit = (event: any) => {

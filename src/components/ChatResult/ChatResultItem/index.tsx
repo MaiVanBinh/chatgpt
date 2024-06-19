@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import "./index.scss";
@@ -8,11 +9,18 @@ import moment from "moment";
 const ChatResultItem = ({ item, tab }: any) => {
   const [show, setShow] = useState(false);
   const [text, setText] = useState("");
-  console.log("item", item, text);
   useEffect(() => {
     setText(item?.result?.substring(0, 100));
+    setShow(false);
   }, [item]);
 
+  useEffect(() => {
+    if (show) {
+      setText(item?.result);
+    } else {
+      setText(item?.result?.substring(0, 100));
+    }
+  }, [show]);
   return (
     <div className="chat-item">
       <div
@@ -48,25 +56,29 @@ const ChatResultItem = ({ item, tab }: any) => {
         children={text}
         components={{
           code({ className, children }) {
-            console.log("children", children);
             return <code className={className}>{children}</code>;
           },
         }}
       />
-      <div
-        className="chat-item__more"
-        onClick={() => {
-          setShow(!show);
-          if (!show) {
-            setText(item?.result);
-          } else {
-            setText(item?.result?.substring(0, 100));
-          }
-        }}
-      >
-        {show ? "자세히" : "간략히"}
-        {show ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-      </div>
+      {item?.result?.length > 100 && (
+        <div className="chat-item__more">
+          <div
+            style={{
+              cursor: "pointer",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            onClick={() => {
+              const newShow = !show;
+              setShow(newShow);
+            }}
+          >
+            {show ? "자세히" : "간략히"}
+            {show ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

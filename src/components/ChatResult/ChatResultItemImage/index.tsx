@@ -1,5 +1,6 @@
 import moment from "moment";
 import "./index.scss";
+import ErrorImage from "../../../img/error-image-photo-icon.webp";
 
 const ChatResultItemImage = ({ item, tab }: any) => {
   if (item.type !== tab) return null;
@@ -30,7 +31,10 @@ const ChatResultItemImage = ({ item, tab }: any) => {
           alt=""
           style={{
             width: "100%",
-            height: "400px",
+            height: "auto",
+          }}
+          onError={(e: any) => {
+            e.target.src = ErrorImage;
           }}
         />
       ) : (
