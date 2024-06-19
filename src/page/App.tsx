@@ -1,12 +1,17 @@
 import "./App.scss";
 import Logo from "./../img/Geminisoft_logo.webp";
 // type ModelValueType = 'gpt' | 'codex' | 'image';
-import PromptInput from "../components/PromptInput_V2";
+import PromptInput from "../components/PromptInput";
 import ChatResult from "../components/ChatResult";
 import axios from "axios";
 import { useState } from "react";
 import { db } from "../db/db";
 import { useLiveQuery } from "dexie-react-hooks";
+import Tab from "react-bootstrap/Tab";
+import Tabs from "react-bootstrap/Tabs";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 const generateUniqueId = () => {
   const timestamp = Date.now();
@@ -145,7 +150,7 @@ const App = () => {
   ];
 
   return (
-    <div className="App">
+    <Container className="App">
       <div
         style={{
           display: "flex",
@@ -153,6 +158,7 @@ const App = () => {
           alignItems: "center",
           backgroundColor: "#fff",
           borderBottom: "1px solid #e0e0e0",
+          marginBottom: "20px",
         }}
       >
         <img
@@ -165,34 +171,36 @@ const App = () => {
         />
       </div>
 
-      <div className="content-container">
-        <div>
-          <div className="tab">
+      <Row>
+        <Col xl={6} lg={6} md={6} sm={12} xs={12}>
+          <Tabs
+            defaultActiveKey="chat-prompt2"
+            id="uncontrolled-tab-example"
+            onSelect={(key: any) => {
+              setTab(key);
+            }}
+          >
             {tabItems.map((item, index) => (
-              <div
-                key={index}
-                className={`tab-item ${tab === item.value ? "active" : ""}`}
-                onClick={() => setTab(item.value)}
-              >
-                {item.name}
-              </div>
+              <Tab key={index} eventKey={item.value} title={item.name} />
             ))}
-          </div>
+          </Tabs>
           <PromptInput onSubmit={getGPTResult} tab={tab} />
-        </div>
-        <ChatResult
-          chatList={chatListDb}
-          loading={
-            tab === "chat-prompt1"
-              ? chatPrompt1Loading
-              : tab === "chat-prompt2"
-              ? chatPrompt2Loading
-              : imagePrompt1Loading
-          }
-          tab={tab}
-        />
-      </div>
-    </div>
+        </Col>
+        <Col xl={6} lg={6} md={6} sm={12} xs={12}>
+          <ChatResult
+            chatList={chatListDb}
+            loading={
+              tab === "chat-prompt1"
+                ? chatPrompt1Loading
+                : tab === "chat-prompt2"
+                ? chatPrompt2Loading
+                : imagePrompt1Loading
+            }
+            tab={tab}
+          />
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
