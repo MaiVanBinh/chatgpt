@@ -172,7 +172,9 @@ const App = () => {
       </div>
 
       <Row>
-        <Col xl={6} lg={6} md={6} sm={12} xs={12}>
+        <Col xl={6} lg={6} md={6} sm={12} xs={12} style={{
+          height: "calc(100vh - 100px)",
+        }}>
           <Tabs
             defaultActiveKey="chat-prompt2"
             id="uncontrolled-tab-example"

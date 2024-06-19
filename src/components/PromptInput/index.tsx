@@ -53,7 +53,7 @@ const PromptInput = ({ onSubmit, tab }: any) => {
   };
 
   return (
-    <div className="BoxInputContent">
+    <div className="BoxInputContent rl-container">
       <div
         style={{
           display: "flex",
@@ -90,6 +90,10 @@ const PromptInput = ({ onSubmit, tab }: any) => {
               value={content}
               onChange={(e) => setContent(e.target.value)}
               cols={30}
+              style={{
+                height: tab === "chat-prompt1" ? "300px" : "386px",
+              }}
+              // rows={tab ==="image-prompt1" ? 13 : 10}
               required
               onInvalid={(e) =>
                 e.currentTarget.setCustomValidity("이 필드를 작성해주세요")

@@ -50,7 +50,7 @@ const ChatResult = ({ chatList, loading, tab }: any) => {
   }
 
   return (
-    <div className="ChatResult">
+    <div className="ChatResult rl-container">
       <div
         style={{
           display: "flex",

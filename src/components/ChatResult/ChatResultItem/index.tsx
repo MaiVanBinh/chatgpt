@@ -10,15 +10,20 @@ const ChatResultItem = ({ item, tab }: any) => {
   const [show, setShow] = useState(false);
   const [text, setText] = useState("");
   useEffect(() => {
-    setText(item?.result?.substring(0, 100));
+    if (item?.result?.length < 100) {
+      setText(item?.result);
+      setShow(false);
+    } else {
+      setText(item?.result?.substring(0, 100) + "...");
+    }
     setShow(false);
   }, [item]);
 
   useEffect(() => {
-    if (show) {
+    if (show || item?.result?.length < 100) {
       setText(item?.result);
     } else {
-      setText(item?.result?.substring(0, 100));
+      setText(item?.result?.substring(0, 100) + "...");
     }
   }, [show]);
   return (
@@ -74,7 +79,7 @@ const ChatResultItem = ({ item, tab }: any) => {
               setShow(newShow);
             }}
           >
-            {show ? "자세히" : "간략히"}
+            {show ? "간략히" : "자세히"}
             {show ? <ExpandLessIcon /> : <ExpandMoreIcon />}
           </div>
         </div>

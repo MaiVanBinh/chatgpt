@@ -9,4 +9,7 @@ html, body, #root, .App {
     border-color: #dee2e6 #dee2e6 #fff;
     font-weight: bold;
   }
+  .rl-container {
+    height: calc(100% - 100px);
+  }
 }
