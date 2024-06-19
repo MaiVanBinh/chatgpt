@@ -1,13 +1,14 @@
+import moment from "moment";
 import "./index.scss";
 
 const ChatResultItemImage = ({ item, tab }: any) => {
-  if(item.type !== tab) return null; 
+  if (item.type !== tab) return null;
   return (
     <div className="chat-item-img">
       <div
         style={{
           display: "flex",
-          justifyContent: item?.title ? "space-between" : "center",
+          justifyContent: item?.title ? "space-between" : "flex-end",
           alignItems: "center",
         }}
       >
@@ -15,12 +16,12 @@ const ChatResultItemImage = ({ item, tab }: any) => {
           className="chat-item__title"
           style={{
             display: "flex",
-            justifyContent: "center",
+            justifyContent: "flex-end",
             width: "100%",
             marginBottom: "10px",
           }}
         >
-          {new Date(item.createdAt).toISOString().split('T')[0]}
+          {moment(item.createdAt).format("YYYY-MM-DD HH:mm a")}
         </div>
       </div>
       {item?.status === "success" ? (

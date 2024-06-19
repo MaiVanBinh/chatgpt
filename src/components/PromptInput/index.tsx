@@ -3,6 +3,7 @@ import "./index.scss";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import { deleteIndexDb } from "../../db/db";
 
 const PromptInput = ({ onSubmit, tab }: any) => {
   const [content, setContent] = useState("");
@@ -52,6 +53,7 @@ const PromptInput = ({ onSubmit, tab }: any) => {
 
     onSubmitHandler(tab);
   };
+
   return (
     <div className="BoxInputContent">
       <div

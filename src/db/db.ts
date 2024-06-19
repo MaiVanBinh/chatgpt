@@ -24,3 +24,24 @@ db.version(1).stores({
 
 export type { ChatList };
 export { db };
+
+const deleteIndexDb = async () => {
+  console.log("deleteIndexDb");
+  await db.chatList.clear();
+};
+
+const loadIndexDb = async (tab: any) => {
+  console.log("loadIndexDb");
+  const chatList = await db.chatList.toArray().then((res) =>
+    res
+      .filter((item) => item.type === tab)
+      .sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() -
+          new Date(a.createdAt).getTime()
+      )
+  );
+  return chatList;
+}
+
+export { deleteIndexDb, loadIndexDb };
