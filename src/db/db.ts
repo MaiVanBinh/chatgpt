@@ -11,6 +11,13 @@ interface ChatList {
   status: "pending" | "success" | "failed";
 }
 
+export const MODEL_TYPES = {
+  CHAT_PROMPT_1: "chat-prompt1",
+  CHAT_PROMPT_2: "chat-prompt2",
+  IMAGE_PROMPT_1: "image-prompt1",
+};
+
+
 const db = new Dexie("FriendsDatabase") as Dexie & {
   chatList: EntityTable<
     ChatList,
@@ -25,9 +32,10 @@ db.version(1).stores({
 export type { ChatList };
 export { db };
 
-const deleteIndexDb = async () => {
+const deleteIndexDb = async (type: string) => {
   console.log("deleteIndexDb");
-  await db.chatList.clear();
+  // await db.chatList.clear();
+  await db.chatList.where("type").equals(type).delete();
 };
 
 const loadIndexDb = async (tab: any) => {

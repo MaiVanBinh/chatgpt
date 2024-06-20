@@ -6,84 +6,67 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import moment from "moment";
 
-const ChatResultItem = ({ item, tab }: any) => {
+const ChatResultItem = ({ item }: any) => {
   const [show, setShow] = useState(false);
-  const [text, setText] = useState("");
+  const [resultLess, setResultLess] = useState("");
+  const [resultMore, setResultMore] = useState("");
+  
   useEffect(() => {
-    if (item?.result?.length < 100) {
-      setText(item?.result);
-      setShow(false);
-    } else {
-      setText(item?.result?.substring(0, 100) + "...");
-    }
     setShow(false);
+    setResultMore(item?.result);
+    const newResultLess =
+      item?.result?.split("\n")?.[0]?.substring(0, 20) +
+      (item?.result?.length > 20 ? "..." : "");
+    setResultLess(newResultLess);
   }, [item]);
 
-  useEffect(() => {
-    if (show || item?.result?.length < 100) {
-      setText(item?.result);
-    } else {
-      setText(item?.result?.substring(0, 100) + "...");
-    }
-  }, [show]);
   return (
-    <div className="chat-item">
-      <div
-        style={{
-          display: "flex",
-          justifyContent: item?.title ? "space-between" : "flex-end",
-          alignItems: "center",
-        }}
-      >
-        {item?.title && (
-          <div
-            className="chat-item__title"
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              fontWeight: "bold",
-            }}
-          >
-            {item.title}
-          </div>
-        )}
+    <div className="chat-item-1">
+      <div>
         <div
           className="chat-item__title"
           style={{
-            display: "flex",
-            justifyContent: "flex-end",
+            fontWeight: "bold",
           }}
         >
+          {item.title}
+        </div>
+        <div className="date">
           {moment(item.createdAt).format("YYYY-MM-DD HH:mm a")}
         </div>
       </div>
-      <ReactMarkdown
-        children={text}
-        components={{
-          code({ className, children }) {
-            return <code className={className}>{children}</code>;
-          },
-        }}
-      />
-      {item?.result?.length > 100 && (
-        <div className="chat-item__more">
-          <div
-            style={{
-              cursor: "pointer",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
+      <div className="response">
+        <div>
+          <ReactMarkdown
+            className="response-content"
+            children={show ? resultMore : resultLess}
+            components={{
+              code({ className, children }) {
+                return <code className={className}>{children}</code>;
+              },
             }}
-            onClick={() => {
-              const newShow = !show;
-              setShow(newShow);
-            }}
-          >
-            {show ? "간략히" : "자세히"}
-            {show ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-          </div>
+          />
         </div>
-      )}
+        {item?.result?.length > 20 && (
+          <div className="chat-item__more">
+            <div
+              style={{
+                cursor: "pointer",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              onClick={() => {
+                const newShow = !show;
+                setShow(newShow);
+              }}
+            >
+              {show ? "간략히" : "자세히"}
+              {show ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

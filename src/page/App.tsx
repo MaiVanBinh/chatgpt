@@ -5,7 +5,7 @@ import PromptInput from "../components/PromptInput";
 import ChatResult from "../components/ChatResult";
 import axios from "axios";
 import { useState } from "react";
-import { db } from "../db/db";
+import { MODEL_TYPES, db } from "../db/db";
 import { useLiveQuery } from "dexie-react-hooks";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
@@ -21,13 +21,15 @@ const generateUniqueId = () => {
   return `id-${timestamp}-${hexadecimalString}`;
 };
 
+
+
 const App = () => {
   // db.chatList.clear().then(() => {
   //   console.log('All items in chatList have been deleted');
   // }).catch((error) => {
   //   console.error('Failed to delete items from chatList:', error);
   // });
-  const [tab, setTab] = useState("chat-prompt2");
+  const [tab, setTab] = useState(MODEL_TYPES.CHAT_PROMPT_2);
   const [chatPrompt1Loading, setChatPrompt1Loading] = useState(false);
   const [chatPrompt2Loading, setChatPrompt2Loading] = useState(false);
   const [imagePrompt1Loading, setImagePrompt1Loading] = useState(false);
@@ -58,13 +60,13 @@ const App = () => {
     let result = "";
     let status = "pending";
     switch (model) {
-      case "chat-prompt1":
+      case MODEL_TYPES.CHAT_PROMPT_1:
         setChatPrompt1Loading(true);
         break;
-      case "chat-prompt2":
+      case MODEL_TYPES.CHAT_PROMPT_2:
         setChatPrompt2Loading(true);
         break;
-      case "image-prompt1":
+      case MODEL_TYPES.IMAGE_PROMPT_1:
         setImagePrompt1Loading(true);
         break;
       default:
@@ -73,20 +75,20 @@ const App = () => {
 
     let data = {};
     switch (model) {
-      case "chat-prompt1":
+      case MODEL_TYPES.CHAT_PROMPT_1:
         data = {
           article_title: value.title,
           main_content: value.content,
           model: model,
         };
         break;
-      case "chat-prompt2":
+      case MODEL_TYPES.CHAT_PROMPT_2:
         data = {
           main_content: value.content,
           model: model,
         };
         break;
-      case "image-prompt1":
+      case MODEL_TYPES.IMAGE_PROMPT_1:
         data = {
           article_title: value.title,
           model: model,
@@ -115,13 +117,13 @@ const App = () => {
       };
       updateChangeList(newChat);
       switch (model) {
-        case "chat-prompt1":
+        case MODEL_TYPES.CHAT_PROMPT_1:
           setChatPrompt1Loading(false);
           break;
-        case "chat-prompt2":
+        case MODEL_TYPES.CHAT_PROMPT_2:
           setChatPrompt2Loading(false);
           break;
-        case "image-prompt1":
+        case MODEL_TYPES.IMAGE_PROMPT_1:
           setImagePrompt1Loading(false);
           break;
         default:
@@ -137,15 +139,15 @@ const App = () => {
   const tabItems = [
     {
       name: "기사요약",
-      value: "chat-prompt2",
+      value: MODEL_TYPES.CHAT_PROMPT_2,
     },
     {
       name: "기사작성",
-      value: "chat-prompt1",
+      value: MODEL_TYPES.CHAT_PROMPT_1
     },
     {
       name: "이미지생성",
-      value: "image-prompt1",
+      value: MODEL_TYPES.IMAGE_PROMPT_1,
     },
   ];
 
@@ -176,7 +178,7 @@ const App = () => {
           height: "calc(100vh - 100px)",
         }}>
           <Tabs
-            defaultActiveKey="chat-prompt2"
+            defaultActiveKey={MODEL_TYPES.CHAT_PROMPT_2}
             id="uncontrolled-tab-example"
             onSelect={(key: any) => {
               setTab(key);
@@ -192,9 +194,9 @@ const App = () => {
           <ChatResult
             chatList={chatListDb}
             loading={
-              tab === "chat-prompt1"
+              tab === MODEL_TYPES.CHAT_PROMPT_1
                 ? chatPrompt1Loading
-                : tab === "chat-prompt2"
+                : tab === MODEL_TYPES.CHAT_PROMPT_2
                 ? chatPrompt2Loading
                 : imagePrompt1Loading
             }

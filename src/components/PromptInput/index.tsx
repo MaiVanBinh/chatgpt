@@ -3,6 +3,7 @@ import "./index.scss";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import { MODEL_TYPES } from "../../db/db";
 
 const PromptInput = ({ onSubmit, tab }: any) => {
   const [content, setContent] = useState("");
@@ -12,14 +13,14 @@ const PromptInput = ({ onSubmit, tab }: any) => {
 
   useEffect(() => {
     switch (tab) {
-      case "chat-prompt1":
+      case MODEL_TYPES.CHAT_PROMPT_1:
         setContentLabel("내용을 입력하세요");
         setTitleLabel("제목을 입력하세요");
         break;
-      case "chat-prompt2":
+      case MODEL_TYPES.CHAT_PROMPT_2:
         setContentLabel("요약할 내용을 입력하세요");
         break;
-      case "image-prompt1":
+      case MODEL_TYPES.IMAGE_PROMPT_1:
         setContentLabel("제목을 입력하세요");
         setTitleLabel("제목을 입력하세요");
         break;
@@ -35,7 +36,7 @@ const PromptInput = ({ onSubmit, tab }: any) => {
     onSubmit(
       {
         content,
-        title: tab === "image-prompt1" ? content : title,
+        title: tab === MODEL_TYPES.IMAGE_PROMPT_1 ? content : title,
       },
       tab
     );
@@ -68,7 +69,7 @@ const PromptInput = ({ onSubmit, tab }: any) => {
             width: "100%",
           }}
         >
-          {tab === "chat-prompt1" && (
+          {tab === MODEL_TYPES.CHAT_PROMPT_1 && (
             <Form.Group controlId="formArticleTitle" className="mb-3">
               <Form.Label>{titleLabel}</Form.Label>
               <Form.Control
@@ -91,9 +92,8 @@ const PromptInput = ({ onSubmit, tab }: any) => {
               onChange={(e) => setContent(e.target.value)}
               cols={30}
               style={{
-                height: tab === "chat-prompt1" ? "300px" : "386px",
+                height: tab === MODEL_TYPES.CHAT_PROMPT_1 ? "300px" : "386px",
               }}
-              // rows={tab ==="image-prompt1" ? 13 : 10}
               required
               onInvalid={(e) =>
                 e.currentTarget.setCustomValidity("이 필드를 작성해주세요")

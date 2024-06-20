@@ -3,7 +3,8 @@ import ChatResultItem from "./ChatResultItem";
 import "./index.scss";
 import ChatResultItemImage from "./ChatResultItemImage";
 import { Button } from "react-bootstrap";
-import { deleteIndexDb } from "../../db/db";
+import { MODEL_TYPES, deleteIndexDb } from "../../db/db";
+import ChatResultItemPrompt2 from "./ChatResultItemPrompt2";
 
 const ChatResult = ({ chatList, loading, tab }: any) => {
   const [loadingText, setLoadingText] = useState(".");
@@ -11,13 +12,13 @@ const ChatResult = ({ chatList, loading, tab }: any) => {
 
   useEffect(() => {
     switch (tab) {
-      case "chat-prompt1":
+      case MODEL_TYPES.CHAT_PROMPT_1:
         setTitle("작성한 기사 목록");
         break;
-      case "chat-prompt2":
+      case MODEL_TYPES.CHAT_PROMPT_2:
         setTitle("요약된 기사 목록");
         break;
-      case "image-prompt1":
+      case MODEL_TYPES.IMAGE_PROMPT_1:
         setTitle("생성한 이미지 목록");
         break;
     }
@@ -65,18 +66,22 @@ const ChatResult = ({ chatList, loading, tab }: any) => {
             alignItems: "center",
             gap: "5px",
           }}
-          onClick={() => deleteIndexDb()}
+          onClick={() => deleteIndexDb(tab)}
         >
           <i className="bi bi-arrow-counterclockwise"></i>
           초기화
         </Button>
       </div>
       {loading && <div className="loading">{loadingText}</div>}
-      {tab !== "image-prompt1" &&
+      {tab === MODEL_TYPES.CHAT_PROMPT_2 &&
+        chatList?.map((item: any, index: number) => (
+          <ChatResultItemPrompt2 key={index} item={item} tab={tab} />
+        ))}
+      {tab === MODEL_TYPES.CHAT_PROMPT_1 &&
         chatList?.map((item: any, index: number) => (
           <ChatResultItem key={index} item={item} tab={tab} />
         ))}
-      {tab === "image-prompt1" &&
+      {tab === MODEL_TYPES.IMAGE_PROMPT_1 &&
         chatList?.map((item: any, index: number) => (
           <ChatResultItemImage key={index} item={item} tab={tab} />
         ))}

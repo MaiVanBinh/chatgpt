@@ -17,7 +17,7 @@ const ChatResultItemImage = ({ item, tab }: any) => {
           className="chat-item__title"
           style={{
             display: "flex",
-            justifyContent: "flex-end",
+            justifyContent: "center",
             width: "100%",
             marginBottom: "10px",
           }}
