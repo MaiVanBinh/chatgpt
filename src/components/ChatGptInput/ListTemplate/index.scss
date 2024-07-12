@@ -1,0 +1,18 @@
+.list-template-select {
+  position: relative;
+  .accordion-collapse {
+    
+    position: absolute;
+    background-color: white;
+    width: 100%;
+    border: 1px solid #e5e5e5;
+    .list-template-items {
+      padding: 0;
+    }
+  }
+  .accordion-header {
+    button {
+      padding: 0 10px;
+    }
+  }
+}

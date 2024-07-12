@@ -12,6 +12,7 @@ import Tabs from "react-bootstrap/Tabs";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import ChatGptInput from "../components/ChatGptInput";
 
 const generateUniqueId = () => {
   const timestamp = Date.now();
@@ -177,7 +178,8 @@ const App = () => {
         <Col xl={6} lg={6} md={6} sm={12} xs={12} style={{
           height: "calc(100vh - 100px)",
         }}>
-          <Tabs
+          <ChatGptInput />
+          {/* <Tabs
             defaultActiveKey={MODEL_TYPES.CHAT_PROMPT_2}
             id="uncontrolled-tab-example"
             onSelect={(key: any) => {
@@ -187,8 +189,8 @@ const App = () => {
             {tabItems.map((item, index) => (
               <Tab key={index} eventKey={item.value} title={item.name} />
             ))}
-          </Tabs>
-          <PromptInput onSubmit={getGPTResult} tab={tab} />
+          </Tabs> */}
+          {/* <PromptInput onSubmit={getGPTResult} tab={tab} /> */}
         </Col>
         <Col xl={6} lg={6} md={6} sm={12} xs={12}>
           <ChatResult
