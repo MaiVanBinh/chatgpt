@@ -4,9 +4,8 @@ import "./index.scss";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 import { Button, Form } from "react-bootstrap";
-import AiChatApi from "../../api/aiChat";
 
-const ChatGptInput = () => {
+const ChatGptInput = ({ getGPTResult }: any) => {
   const [selectedItem, setSelectedItem] = useState<any>(null);
   const [info, setInfo] = useState<any>([]);
   useEffect(() => {
@@ -25,7 +24,6 @@ const ChatGptInput = () => {
       setInfo(newInfo);
     }
   }, [selectedItem]);
-  console.log(info);
 
   const handleSubmit = (event: any) => {
     const form = event.currentTarget;
@@ -41,9 +39,8 @@ const ChatGptInput = () => {
         return target.value;
       }
     );
-    AiChatApi.getAiResponse(newPrompt).then((res) => {
-      console.log(res);
-    });
+
+    getGPTResult(newPrompt, info);
   };
 
   return (
@@ -87,6 +84,7 @@ const ChatGptInput = () => {
                   setInfo(newInfo);
                 }}
                 cols={30}
+                rows={5}
                 required
                 onInvalid={(e) =>
                   e.currentTarget.setCustomValidity("이 필드를 작성해주세요")

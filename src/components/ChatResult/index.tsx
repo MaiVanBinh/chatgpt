@@ -1,29 +1,11 @@
 import { useEffect, useState } from "react";
-import ChatResultItem from "./ChatResultItem";
 import "./index.scss";
-import ChatResultItemImage from "./ChatResultItemImage";
 import { Button } from "react-bootstrap";
-import { MODEL_TYPES, deleteIndexDb } from "../../db/db";
-import ChatResultItemPrompt2 from "./ChatResultItemPrompt2";
+import { deleteIndexDb } from "../../db/db";
+import ChatResultItem from "./ChatResultItem";
 
-const ChatResult = ({ chatList, loading, tab }: any) => {
+const ChatResult = ({ chatList, loading }: any) => {
   const [loadingText, setLoadingText] = useState(".");
-  const [title, setTitle] = useState("");
-
-  useEffect(() => {
-    switch (tab) {
-      case MODEL_TYPES.CHAT_PROMPT_1:
-        setTitle("작성한 기사 목록");
-        break;
-      case MODEL_TYPES.CHAT_PROMPT_2:
-        setTitle("요약된 기사 목록");
-        break;
-      case MODEL_TYPES.IMAGE_PROMPT_1:
-        setTitle("생성한 이미지 목록");
-        break;
-    }
-  }, [tab]);
-
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
 
@@ -59,32 +41,23 @@ const ChatResult = ({ chatList, loading, tab }: any) => {
           marginBottom: "10px",
         }}
       >
-        {title}
+        설교 초안 작성 목록
         <Button
           style={{
             display: "flex",
             alignItems: "center",
             gap: "5px",
           }}
-          onClick={() => deleteIndexDb(tab)}
+          onClick={() => deleteIndexDb()}
         >
           <i className="bi bi-arrow-counterclockwise"></i>
           초기화
         </Button>
       </div>
       {loading && <div className="loading">{loadingText}</div>}
-      {tab === MODEL_TYPES.CHAT_PROMPT_2 &&
-        chatList?.map((item: any, index: number) => (
-          <ChatResultItemPrompt2 key={index} item={item} tab={tab} />
-        ))}
-      {tab === MODEL_TYPES.CHAT_PROMPT_1 &&
-        chatList?.map((item: any, index: number) => (
-          <ChatResultItem key={index} item={item} tab={tab} />
-        ))}
-      {tab === MODEL_TYPES.IMAGE_PROMPT_1 &&
-        chatList?.map((item: any, index: number) => (
-          <ChatResultItemImage key={index} item={item} tab={tab} />
-        ))}
+      {chatList?.map((item: any, index: number) => (
+        <ChatResultItem key={index} item={item} />
+      ))}
     </div>
   );
 };
