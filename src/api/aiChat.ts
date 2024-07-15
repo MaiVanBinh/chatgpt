@@ -1,3 +1,4 @@
+import axios from "axios";
 import { OpenAI } from "openai";
 
 // const draftData = {
@@ -26,22 +27,24 @@ import { OpenAI } from "openai";
 // };
 class AiChatApi {
   static API_URL = process.env.REACT_APP_CHAT_AI_URL;
-  static openai = new OpenAI({
-    apiKey: process.env.REACT_APP_OPENAI_API_KEY,
-    dangerouslyAllowBrowser: true,
-  });
+  static REACT_APP_CHAT_AI_TOKEN = process.env.REACT_APP_CHAT_AI_TOKEN;
 
   static async getAiResponse(prompt: string) {
     let finalResult = null;
+    const sFaceHost = `${this.API_URL}/ai-engines/api/v1/auth/ai-llm/chatgpt`;
+    const requestBody = {
+      type: "article",
+      prompt: prompt,
+    };
+    const requestHeader = {
+      headers: {
+        Authorization: "Bearer " + this.REACT_APP_CHAT_AI_TOKEN,
+      },
+    };
 
-    const chatCompletion = await this.openai.chat.completions.create({
-      messages: [{ role: "user", content: prompt }],
-      model: "gpt-4o", // model name
-      max_tokens: 4000, // Use max 8000 tokens for codex model
-      // stream: true
-    });
-    // const chatCompletion = draftData;
-    finalResult = chatCompletion.choices[0].message.content || "";
+    const res = await axios.post(sFaceHost, requestBody, requestHeader);
+
+    finalResult = res?.data?.data?.answer;
     return finalResult;
   }
 }

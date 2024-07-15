@@ -10,7 +10,7 @@
 
 # production
 /build
-
+chatgpt.zip
 # misc
 .DS_Store
 .env
