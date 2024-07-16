@@ -15,7 +15,7 @@ const ChatResultItem = ({ item, tab }: any) => {
   useEffect(() => {
     setShow(false);
     const data = JSON.parse(item?.data || "[]")
-      ?.map((item: any) => `<b>${item.key}</b>: ${item.value}` + "\n")
+      ?.map((item: any) => `<b>${item.key}</b>: ${item.value}` + "<br />")
       ?.join("");
 
     setContentMore(data);
@@ -103,10 +103,11 @@ const ChatResultItem = ({ item, tab }: any) => {
           />
         </div>
         <ReactMarkdown
-          className="response-content"
-          children={item?.result}
+          className={item?.status === "failed" ? "response-content error" : "response-content"}
+          children={item?.status === "failed" ? `Error: ${item?.result?.error}` : item?.result}
           components={{
             code({ className, children }) {
+              console.log("children", JSON.stringify(children));
               return <code className={className}>{children}</code>;
             },
           }}
