@@ -7,6 +7,7 @@ interface ChatList {
   result: string;
   createdAt: Date;
   status: "pending" | "success" | "failed";
+  type: number;
 }
 
 const db = new Dexie("chatGpt") as Dexie & {
@@ -23,10 +24,8 @@ db.version(1).stores({
 export type { ChatList };
 export { db };
 
-const deleteIndexDb = async () => {
-  // await db.chatList.clear();
-  await db.chatList
-    .clear();
+const deleteIndexDb = async (type: number) => {
+  await db.chatList.where("type").equals(type).delete();
 };
 
 const loadIndexDb = async (tab: any) => {

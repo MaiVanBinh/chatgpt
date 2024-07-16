@@ -107,7 +107,6 @@ const ChatResultItem = ({ item, tab }: any) => {
           children={item?.status === "failed" ? `Error: ${item?.result?.error}` : item?.result}
           components={{
             code({ className, children }) {
-              console.log("children", JSON.stringify(children));
               return <code className={className}>{children}</code>;
             },
           }}

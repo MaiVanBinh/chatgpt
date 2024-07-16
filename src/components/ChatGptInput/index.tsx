@@ -5,7 +5,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 
 import { Button, Form } from "react-bootstrap";
 
-const ChatGptInput = ({ getGPTResult }: any) => {
+const ChatGptInput = ({ getGPTResult, setSelectedType }: any) => {
   const [selectedItem, setSelectedItem] = useState<any>(null);
   const [info, setInfo] = useState<any>([]);
   useEffect(() => {
@@ -40,13 +40,16 @@ const ChatGptInput = ({ getGPTResult }: any) => {
       }
     );
 
-    getGPTResult(newPrompt, info);
+    getGPTResult(newPrompt, info, selectedItem.id);
   };
 
   return (
     <div className="ChatGptInput">
       <AllCollapseExample
-        setSelectedItem={setSelectedItem}
+        setSelectedItem={(item: any) => {
+          setSelectedItem(item);
+          setSelectedType(item.id);
+        }}
         selectedItem={selectedItem}
       />
       <div

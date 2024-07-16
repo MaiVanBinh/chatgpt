@@ -19,23 +19,26 @@ const generateUniqueId = () => {
 };
 
 const App = () => {
-
   const [chatGptLoading, setChatGptLoading] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<any>(null);
 
   const chatListDb = useLiveQuery(
     () =>
       db.chatList
         .toArray()
         .then((res) =>
-          res.sort(
-            (a, b) =>
-              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-          )
+          res
+            .filter((item) => item.type === selectedItem)
+            .sort(
+              (a, b) =>
+                new Date(b.createdAt).getTime() -
+                new Date(a.createdAt).getTime()
+            )
         ),
-    []
+    [selectedItem]
   );
 
-  const getGPTResult = async (value: any, inputs: any) => {
+  const getGPTResult = async (value: any, inputs: any, type: number) => {
     setChatGptLoading(true);
     let result = "";
     let status = "pending";
@@ -53,6 +56,7 @@ const App = () => {
         result: result,
         createdAt: new Date(),
         status,
+        type: type,
       };
       updateChangeList(newChat);
       setChatGptLoading(false);
@@ -96,10 +100,14 @@ const App = () => {
             height: "calc(100vh - 100px)",
           }}
         >
-          <ChatGptInput getGPTResult={getGPTResult} />
+          <ChatGptInput
+            getGPTResult={getGPTResult}
+            setSelectedType={setSelectedItem}
+            type={selectedItem}
+          />
         </Col>
         <Col xl={6} lg={6} md={6} sm={12} xs={12}>
-          <ChatResult chatList={chatListDb} loading={chatGptLoading} />
+          <ChatResult chatList={chatListDb} loading={chatGptLoading} type={selectedItem} />
         </Col>
       </Row>
     </Container>

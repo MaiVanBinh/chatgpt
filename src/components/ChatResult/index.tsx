@@ -4,7 +4,7 @@ import { Button } from "react-bootstrap";
 import { deleteIndexDb } from "../../db/db";
 import ChatResultItem from "./ChatResultItem";
 
-const ChatResult = ({ chatList, loading }: any) => {
+const ChatResult = ({ chatList, loading, type }: any) => {
   const [loadingText, setLoadingText] = useState(".");
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
@@ -48,7 +48,7 @@ const ChatResult = ({ chatList, loading }: any) => {
             alignItems: "center",
             gap: "5px",
           }}
-          onClick={() => deleteIndexDb()}
+          onClick={() => deleteIndexDb(type)}
         >
           <i className="bi bi-arrow-counterclockwise"></i>
           초기화
