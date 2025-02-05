@@ -14,7 +14,7 @@ root.render(
   <React.StrictMode>
     {/* http://ec2-3-34-140-68.ap-northeast-2.compute.amazonaws.com:12345/frontend_mymy_demo */}
     <BrowserRouter
-      basename="/frontend_mymy_demo" // Add basename prop
+      basename="/ai-articles" // Add basename prop
     >
     <App />
     </BrowserRouter>
